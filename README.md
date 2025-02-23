@@ -1,6 +1,6 @@
 # parspec-assignment
 
-This document provides instructions for setting up and running the e-commerce order backend system.
+This document provides instructions for setting up and running the parspec-assignemnet order backend system.
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ Before you begin, ensure that you have the following software installed:
 
 ## Database Setup
 
-1.  **Create Database:**  Use your MySQL client to create the database that the application will use.  Replace `your_database_name` with your desired database name:
+1.  **Create Database:**  Use your MySQL client to create the database that the application will use.
 
     ```sql
     CREATE DATABASE parspec;
@@ -26,19 +26,18 @@ Before you begin, ensure that you have the following software installed:
     FLUSH PRIVILEGES;
     ```
 
-3.  **Create Table:** The application will automatically create the `orders` table if it doesn't exist. However, for reference, here's the SQL query used to create the table:
+3.  **Create Table:** Here's the SQL query used to create the table:
 
     ```sql
     CREATE TABLE IF NOT EXISTS orders (
-      `id` INT PRIMARY KEY,
-      `order_id` VARCHAR(36),
-      `user_id` INT,
-      `item_ids` TEXT,
-      `total_amount` DECIMAL(10,2),
-      `status` ENUM('Pending', 'Processing', 'Completed') DEFAULT 'Pending',
-      `processing_time` FLOAT,
-      `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-			`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `order_id` INT PRIMARY KEY auto_increment,
+    `user_id` INT,
+    `item_ids` TEXT,
+    `total_amount` DECIMAL(10,2),
+    `status` ENUM('Pending', 'Processing', 'Completed') DEFAULT 'Pending',
+    `processing_time` FLOAT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
     ```
 
