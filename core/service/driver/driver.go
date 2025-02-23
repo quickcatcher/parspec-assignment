@@ -1,12 +1,14 @@
 package driver
 
 import (
+	"parspec-assignment/core/domain"
 	persistenceDriver "parspec-assignment/core/persistence/driver"
 	svc "parspec-assignment/core/service"
 )
 
 type OrderSVC interface {
-	CreateOrder(req *svc.CreateOrderRequest) (resp *svc.Response, err error)
+	CreateOrder(req *svc.CreateOrderRequest, orderQueue chan *domain.Orders, metrics *domain.Metrics) (resp *svc.Response, err error)
+	GetOrderStatus(orderId int) (resp *svc.Response, err error)
 }
 
 func NewOrderService() OrderSVC {

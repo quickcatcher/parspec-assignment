@@ -1,12 +1,30 @@
 package domain
 
+import (
+	"sync"
+)
+
 // order struct containing user order details
 type Orders struct {
-	Id             int     `json:"id"` // primary key of the table
-	OrderId        string  `json:"order_id"`
+	OrderId        int     `json:"order_id" orm:"pk;auto;"`
 	UserId         int     `json:"user_id"`
-	ItemIDs        string  `json:"item_ids"`
+	ItemIds        string  `json:"item_ids"`
 	TotalAmount    float64 `json:"total_amount"`
 	Status         string  `json:"status"`
 	ProcessingTime float64 `json:"processing_time"`
+}
+
+type Metrics struct {
+	TotalOrdersProcessed  int            `json:"total_orders_processed"`
+	AverageProcessingTime float64        `json:"average_processing_time"`
+	OrderStatusCounts     map[string]int `json:"order_status_counts"`
+	mu                    sync.Mutex     `json:"-"` // Mutex for thread-safe metrics updates
+}
+
+func (m *Metrics) MutexLock() {
+	m.mu.Lock()
+}
+
+func (m *Metrics) MutexUnLock() {
+	m.mu.Unlock()
 }

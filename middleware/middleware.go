@@ -35,6 +35,7 @@ func DBConnection(c *gin.Context) {
 			fmt.Println("Error while registering db", err)
 			return
 		}
+		orm.Debug = true
 	})
 
 	err = MysqlTest(DbName)
