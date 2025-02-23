@@ -14,6 +14,7 @@ type Orders struct {
 	ProcessingTime float64 `json:"processing_time"`
 }
 
+// Metric struct containing metric details
 type Metrics struct {
 	TotalOrdersProcessed  int            `json:"total_orders_processed"`
 	AverageProcessingTime float64        `json:"average_processing_time"`
@@ -21,6 +22,7 @@ type Metrics struct {
 	mu                    sync.Mutex     `json:"-"` // Mutex for thread-safe metrics updates
 }
 
+// Created methods of metric structs since we want Mutex field as private
 func (m *Metrics) MutexLock() {
 	m.mu.Lock()
 }

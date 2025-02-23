@@ -5,6 +5,7 @@ import (
 	"parspec-assignment/core/persistence"
 )
 
+// Order persistence Interface cause we want the implementation to be internal. This supports polymorphous implementation as well
 type OrderPersistence interface {
 	AddOrder(order *domain.Orders) (orderid int, err error)
 	GetOrderbyOrderId(orderId int) (order *domain.Orders, err error)
@@ -12,5 +13,5 @@ type OrderPersistence interface {
 }
 
 func NewOrderPersistence() OrderPersistence {
-	return &persistence.OrderModel{}
+	return &persistence.OrderModel{} // returning the only implementation
 }

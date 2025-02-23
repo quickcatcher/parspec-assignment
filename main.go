@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	// creating in memory queue as golang channel and metrics which will be maintained through every API calls
 	orderQueue := make(chan *domain.Orders)
 	metrics := &domain.Metrics{
 		OrderStatusCounts: map[string]int{

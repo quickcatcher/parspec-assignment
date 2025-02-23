@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+// registering the Model in beego ORM for flexible query methods
 func init() {
 	orm.RegisterModel(new(domain.Orders))
 }

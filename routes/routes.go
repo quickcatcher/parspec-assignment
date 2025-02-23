@@ -12,17 +12,21 @@ import (
 
 func EngineRoutes(router *gin.RouterGroup, orderQueue chan *domain.Orders, metrics *domain.Metrics) {
 
+	// started go routine for asynchronous processing of queue
 	go svc.ProcessQueueOrders(orderQueue, metrics)
 	router.Use(middleware.DBConnection)
 
+	// POST order route for adding orders
 	router.POST("/order", func(c *gin.Context) {
 		CreateOrder(c, orderQueue, metrics)
 	})
 
+	// GEt order route to get status and order details
 	router.GET("/order/:id", func(c *gin.Context) {
 		GetOrderStatus(c)
 	})
 
+	//  GET metrics route for getting metrics data
 	router.GET("/metrics", func(c *gin.Context) {
 		GetMetrics(c, metrics)
 	})
@@ -31,6 +35,7 @@ func EngineRoutes(router *gin.RouterGroup, orderQueue chan *domain.Orders, metri
 func CreateOrder(c *gin.Context, orderQueue chan *domain.Orders, metrics *domain.Metrics) {
 	request := &svc.CreateOrderRequest{}
 
+	// validating request for adding order
 	err := c.ShouldBindJSON(request)
 	if err != nil {
 		response := &svc.Response{Message: "Bad Request"}
@@ -38,6 +43,7 @@ func CreateOrder(c *gin.Context, orderQueue chan *domain.Orders, metrics *domain
 		return
 	}
 
+	// defining order service
 	orderSvc := svcDriver.NewOrderService()
 
 	resp, err := orderSvc.CreateOrder(request, orderQueue, metrics)
@@ -50,6 +56,7 @@ func CreateOrder(c *gin.Context, orderQueue chan *domain.Orders, metrics *domain
 }
 
 func GetOrderStatus(c *gin.Context) {
+	//extracting order id from url parameter
 	orderId := c.Param("id")
 	if orderId == "" {
 		response := &svc.Response{Message: "OrderId is mandatory"}
